@@ -1,8 +1,11 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Button from "./Button";
 import { TiLocationArrow } from "react-icons/ti";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/all";
+
+gsap.registerPlugin(ScrollTrigger);
 const Hero = () => {
   const [currentindex, setcurrentindex] = useState(1);
   const [hasclicked, sethasclicked] = useState(false);
@@ -17,6 +20,12 @@ const Hero = () => {
     sethasclicked(true);
     setcurrentindex((prev) => (prev % totalvideo) + 1);
   };
+
+  useEffect(() => {
+    if (loadedvideo === totalvideo - 1) {
+      setloading(false);
+    }
+  }, [loadedvideo]);
 
   const videosrc = (i) => `videos/hero-${i}.mp4`;
 
@@ -44,8 +53,35 @@ const Hero = () => {
     { dependencies: [currentindex], revertOnUpdate: true }
   );
 
+  useGSAP(() => {
+    gsap.set("#video-frame", {
+      clipPath: "polygon(14% 0%, 72% 0%, 90% 90%,0% 100%)",
+      borderRadius: "0% 0% 40% 10%",
+    });
+    gsap.from("#video-frame", {
+      clipPath: "polygon(0% 0%, 100% 0%, 100% 100%,0% 100%)",
+      borderRadius: "0% 0% 0% 0%",
+      ease: "power1.inOut",
+      scrollTrigger: {
+        trigger: "#video-frame",
+        start: "center center",
+        end: "bottom center",
+        scrub: true,
+      },
+    });
+  });
+
   return (
     <div className="h-dvh w-screen overflow-x-hidden relative">
+      {loading && (
+        <div className=" flex-center absolute z-[100] h-dvh w-screen overflow-hidden bg-violet-50">
+          <div className="three-body">
+            <div className="three-body__dot"></div>
+            <div className="three-body__dot"></div>
+            <div className="three-body__dot"></div>
+          </div>
+        </div>
+      )}
       <div
         id="video-frame"
         className="h-dvh relative w-screen overflow-hidden bg-blue-75 rounded-lg z-10"

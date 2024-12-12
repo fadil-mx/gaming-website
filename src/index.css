@@ -46,6 +46,45 @@ body {
   .nav-hover-btn {
     @apply relative ms-10 font-general text-xs uppercase text-blue-50 after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 dark:after:bg-white cursor-pointer;
   }
+  .link-113 {
+    color: #ffffff;
+    font-size: 20px;
+    text-decoration: none;
+    padding: 10px 20px;
+    margin: 0 5px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .link-113::before,
+  .link-113::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background: #ffffff;
+    transition: all 0.5s;
+  }
+
+  .link-113::before {
+    top: 0;
+    left: 0;
+  }
+
+  .link-113::after {
+    bottom: 0;
+    right: 0;
+  }
+
+  .link-113:hover::before {
+    width: 100%;
+    transition: width 0.25s ease-in-out;
+  }
+
+  .link-113:hover::after {
+    width: 100%;
+    transition: width 0.25s ease-in-out 0.25s;
+  }
 
   .floating-nav {
     @apply bg-black rounded-lg border;
